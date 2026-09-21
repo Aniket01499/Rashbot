@@ -1,0 +1,167 @@
+This is an incredibly smart idea. Every senior engineer keeps a "runbook" or a master `README.md` for their projects exactly for this reason—so you don't have to rely on memory or dig through old logs to spin up your architecture.
+
+Here is your complete, sequential Master Cheat Sheet for the **RashBot** pipeline. Bookmark this or save it as a text file in your project folder.
+
+---
+
+### Phase 1: Environment Initialization & Dependencies
+*Always run these when you sit down for a new session.*
+
+**[TERMINAL 1 - Master Terminal]**
+```bash
+# 1. Navigate to the workshop and activate the environment
+cd ~/RashBot
+source rash_env/bin/activate
+
+# 2. Install all required dependencies (Only needed once)
+pip install mss opencv-python pynput roboflow ultralytics
+
+# 3. Apply the PyTorch Hardware Fix for GTX 1050 Ti (Only needed once)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+---
+
+### Phase 2: Launching the Plant (The Game)
+*The game must run in a strict, un-escapable window for the bot to see it.*
+
+**[TERMINAL 2 - The Game]**
+```bash
+# 1. Force the Wine Virtual Desktop (Set to 800x600 in Graphics tab)
+winecfg
+
+# 2. Launch the game
+cd ~/.wine/drive_c/RoadRash
+wine RoadRash.exe
+```
+
+---
+
+### Phase 3: Sensor Calibration
+*Aligning the bot's "eyes" to the game window.*
+
+**[TERMINAL 1 - Master Terminal]**
+```bash
+# 1. Get the exact pixel coordinates of the Wine window
+xwininfo
+```
+*Action: Click your crosshair cursor on the Road Rash window. Copy the X, Y, Width, and Height outputs and update the `monitor` dictionary in your Python scripts.*
+
+---
+
+### Phase 4: Data Collection (3 FPS)
+*Gathering the raw frames for the neural network.*
+
+**[TERMINAL 1 - Master Terminal]**
+1. Create/Edit the collector: `nano data_collector.py`
+```python
+import mss
+import time
+import os
+import cv2
+import numpy as np
+
+os.makedirs('dataset/raw_frames', exist_ok=True)
+sct = mss.mss()
+
+# UPDATE THESE WITH xwininfo NUMBERS
+monitor = {"top": 150, "left": 320, "width": 800, "height": 600} 
+
+print("Recording started. 3 FPS. Switch to game!")
+count = 0
+total_frames = 720 # 4 minutes
+
+try:
+    while count < total_frames: 
+        img = np.array(sct.grab(monitor))
+        frame = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+        cv2.imwrite(f"dataset/raw_frames/frame_{count:04d}.jpg", frame)
+        count += 1
+        time.sleep(0.33) 
+except KeyboardInterrupt:
+    pass
+print("Collection complete!")
+```
+2. Execute the collector:
+```bash
+# Run this, then immediately click into the game and drive
+python3 data_collector.py
+```
+
+---
+
+### Phase 5: The ML Pipeline (Download & Train)
+*Pulling the Roboflow annotations and firing up the GPU.*
+
+**[TERMINAL 1 - Master Terminal]**
+1. Create the download script: `nano pull_data.py`
+```python
+from roboflow import Roboflow
+
+print("Connecting to Roboflow...")
+rf = Roboflow(api_key="e5vgK9uZozTJhVSwioRP")
+project = rf.workspace("anikets-workspace-mkmbv").project("rash-bot")
+version = project.version(1)
+
+print("Downloading New Drivable Area Dataset...")
+dataset = version.download("yolov8")
+print(f"Download complete! Dataset saved to: {dataset.location}")
+```
+2. Download the data:
+```bash
+python3 pull_data.py
+```
+3. **CRITICAL FIX:** Edit the `data.yaml` file to bypass the missing validation folder error.
+```bash
+nano rash-bot-1/data.yaml  # Replace rash-bot-1 if your folder name is slightly different
+# CHANGE THIS: val: valid/images
+# TO THIS:     val: train/images
+```
+4. Execute Local GPU Training (GTX 1050 Ti):
+```bash
+yolo task=detect mode=train model=yolov8n.pt data='Rash-Bot-Active-Safety-1/data.yaml' epochs=50 imgsz=640 batch=8 device=0
+```
+
+---
+
+### Phase 6: Live Hardware-in-the-Loop Test
+*Running the compiled Brain (`best.pt`) on the live game.*
+
+**[TERMINAL 1 - Master Terminal]**
+1. Create the vision script: `nano live_vision.py`
+```python
+import cv2
+import numpy as np
+import mss
+import time
+from ultralytics import YOLO
+
+# Ensure this path matches your latest successful training run!
+model = YOLO("runs/detect/train4/weights/best.pt")
+sct = mss.mss()
+
+# UPDATE THESE WITH xwininfo NUMBERS
+monitor = {"top": 150, "left": 320, "width": 800, "height": 600} 
+prev_time = 0
+
+while True:
+    img = np.array(sct.grab(monitor))
+    frame = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+    
+    results = model(frame, verbose=False) 
+    annotated_frame = results[0].plot()
+    
+    curr_time = time.time()
+    fps = 1 / (curr_time - prev_time)
+    prev_time = curr_time
+    cv2.putText(annotated_frame, f"FPS: {int(fps)}", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    
+    cv2.imshow("RashBot Active Vision", annotated_frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+cv2.destroyAllWindows()
+```
+2. Execute the vision system alongside the running game:
+```bash
+python3 live_vision.py
+```

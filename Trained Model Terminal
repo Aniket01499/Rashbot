@@ -1,0 +1,662 @@
+aniket@aniket:~/RashBot$ python3 pull_data.py
+Traceback (most recent call last):
+  File "/home/aniket/RashBot/pull_data.py", line 1, in <module>
+    from roboflow import Roboflow
+ModuleNotFoundError: No module named 'roboflow'
+aniket@aniket:~/RashBot$ cd ~/RashBot
+source rash_env/bin/activate
+(rash_env) aniket@aniket:~/RashBot$ nano pull_data.py
+(rash_env) aniket@aniket:~/RashBot$ python3 pull_data.py
+Connecting to Roboflow...
+loading Roboflow workspace...
+loading Roboflow project...
+Downloading New Drivable Area Dataset...
+Downloading Dataset Version Zip in Rash-Bot-1 to yolov8:: 100%|█| 43070/43070 [0
+
+Extracting Dataset Version Zip to Rash-Bot-1 in yolov8:: 100%|█| 1213/1213 [00:0
+Download complete! Dataset saved to: /home/aniket/RashBot/Rash-Bot-1
+(rash_env) aniket@aniket:~/RashBot$ nano rash-bot-1/data.yaml  # Replace rash-bot-1 if your folder name is slightly different
+(rash_env) aniket@aniket:~/RashBot$ nano Rash-Bot-1/data.yaml  # Replace rash-bot-1 if your folder name is slightly different
+(rash_env) aniket@aniket:~/RashBot$ yolo task=detect mode=train model=yolov8n.pt data='rash-bot-1/data.yaml' epochs=50 imgsz=640 batch=8 device=0
+Ultralytics 8.4.33 🚀 Python-3.10.12 torch-2.7.1+cu118 CUDA:0 (NVIDIA GeForce GTX 1050 Ti, 4032MiB)
+engine/trainer: agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=8, bgr=0.0, box=7.5, cache=False, cfg=None, classes=None, close_mosaic=10, cls=0.5, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=rash-bot-1/data.yaml, degrees=0.0, deterministic=True, device=0, dfl=1.5, dnn=False, dropout=0.0, dynamic=False, embed=None, end2end=None, epochs=50, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, half=False, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, int8=False, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolov8n.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=train5, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=100, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/home/aniket/RashBot/runs/detect/train5, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=botsort.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=8, workspace=None
+Traceback (most recent call last):
+  File "/home/aniket/RashBot/rash_env/lib/python3.10/site-packages/ultralytics/engine/trainer.py", line 694, in get_dataset
+    data = check_det_dataset(self.args.data)
+  File "/home/aniket/RashBot/rash_env/lib/python3.10/site-packages/ultralytics/data/utils.py", line 415, in check_det_dataset
+    file = check_file(dataset)
+  File "/home/aniket/RashBot/rash_env/lib/python3.10/site-packages/ultralytics/utils/checks.py", line 683, in check_file
+    raise FileNotFoundError(f"'{file}' does not exist")
+FileNotFoundError: 'rash-bot-1/data.yaml' does not exist
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/aniket/RashBot/rash_env/bin/yolo", line 8, in <module>
+    sys.exit(entrypoint())
+  File "/home/aniket/RashBot/rash_env/lib/python3.10/site-packages/ultralytics/cfg/__init__.py", line 993, in entrypoint
+    getattr(model, mode)(**overrides)  # default args from model
+  File "/home/aniket/RashBot/rash_env/lib/python3.10/site-packages/ultralytics/engine/model.py", line 783, in train
+    self.trainer = (trainer or self._smart_load("trainer"))(overrides=args, _callbacks=self.callbacks)
+  File "/home/aniket/RashBot/rash_env/lib/python3.10/site-packages/ultralytics/models/yolo/detect/train.py", line 63, in __init__
+    super().__init__(cfg, overrides, _callbacks)
+  File "/home/aniket/RashBot/rash_env/lib/python3.10/site-packages/ultralytics/engine/trainer.py", line 186, in __init__
+    self.data = self.get_dataset()
+  File "/home/aniket/RashBot/rash_env/lib/python3.10/site-packages/ultralytics/engine/trainer.py", line 698, in get_dataset
+    raise RuntimeError(emojis(f"Dataset '{clean_url(self.args.data)}' error ❌ {e}")) from e
+RuntimeError: Dataset 'rash-bot-1/data.yaml' error ❌ 'rash-bot-1/data.yaml' does not exist
+(rash_env) aniket@aniket:~/RashBot$ ls
+ autonomous_drive.py    live_vision.py             rash_env
+ controller.py          planner.py                 runs
+ data_collector.py      pull_data.py               yolo26n.pt
+ dataset                __pycache__                yolov8n.pt
+'General Setup codes'   Rash-Bot-1
+ hsv_tuner.py           Rash-Bot-Active-Safety-1
+(rash_env) aniket@aniket:~/RashBot$ yolo task=detect mode=train model=yolov8n.pt data='Rash-Bot-1/data.yaml' epochs=50 imgsz=640 batch=8 device=0
+Ultralytics 8.4.33 🚀 Python-3.10.12 torch-2.7.1+cu118 CUDA:0 (NVIDIA GeForce GTX 1050 Ti, 4032MiB)
+engine/trainer: agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=8, bgr=0.0, box=7.5, cache=False, cfg=None, classes=None, close_mosaic=10, cls=0.5, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=Rash-Bot-1/data.yaml, degrees=0.0, deterministic=True, device=0, dfl=1.5, dnn=False, dropout=0.0, dynamic=False, embed=None, end2end=None, epochs=50, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, half=False, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, int8=False, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolov8n.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=train, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=100, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/home/aniket/RashBot/runs/detect/train, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=botsort.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=8, workspace=None
+Overriding model.yaml nc=80 with nc=4
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 
+  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                
+  2                  -1  1      7360  ultralytics.nn.modules.block.C2f             [32, 32, 1, True]             
+  3                  -1  1     18560  ultralytics.nn.modules.conv.Conv             [32, 64, 3, 2]                
+  4                  -1  2     49664  ultralytics.nn.modules.block.C2f             [64, 64, 2, True]             
+  5                  -1  1     73984  ultralytics.nn.modules.conv.Conv             [64, 128, 3, 2]               
+  6                  -1  2    197632  ultralytics.nn.modules.block.C2f             [128, 128, 2, True]           
+  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              
+  8                  -1  1    460288  ultralytics.nn.modules.block.C2f             [256, 256, 1, True]           
+  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5]                 
+ 10                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 11             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 12                  -1  1    148224  ultralytics.nn.modules.block.C2f             [384, 128, 1]                 
+ 13                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 14             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 15                  -1  1     37248  ultralytics.nn.modules.block.C2f             [192, 64, 1]                  
+ 16                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+ 17            [-1, 12]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 18                  -1  1    123648  ultralytics.nn.modules.block.C2f             [192, 128, 1]                 
+ 19                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+ 20             [-1, 9]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 21                  -1  1    493056  ultralytics.nn.modules.block.C2f             [384, 256, 1]                 
+ 22        [15, 18, 21]  1    752092  ultralytics.nn.modules.head.Detect           [4, 16, None, [64, 128, 256]] 
+Model summary: 130 layers, 3,011,628 parameters, 3,011,612 gradients, 8.2 GFLOPs
+
+Transferred 319/355 items from pretrained weights
+Freezing layer 'model.22.dfl.conv.weight'
+AMP: running Automatic Mixed Precision (AMP) checks...
+AMP: checks passed ✅
+train: Fast image access ✅ (ping: 0.0±0.0 ms, read: 1771.1±298.0 MB/s, size: 70.7 KB)
+train: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels... 65 images, 0 bactrain: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels... 137 images, 0 batrain: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels... 214 images, 0 batrain: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels... 295 images, 0 batrain: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels... 365 images, 0 batrain: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels... 443 images, 0 batrain: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels... 523 images, 0 batrain: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels... 605 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 605/605 723.0it/s 0.8s
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0018_jpg.rf.c6f3fc61b3b18122e550ca17ce0b55a4.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0019_jpg.rf.a116debe2d644bffc4412bd99b979f23.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0021_jpg.rf.8621770e74916bfee5a4bb94fd2d2885.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0023_jpg.rf.b0a3aec46ac83791f46796585d3de22c.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0026_jpg.rf.312c84e317629a25f0f787117e39eead.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0029_jpg.rf.61d9a2f05e133f1edfe0092d036227eb.jpg: 4 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0030_jpg.rf.bdaa08cbf5e27354dc6f3372a63db65f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0035_jpg.rf.7355acd350ab2a2304e12ba5041a7bae.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0036_jpg.rf.5ecc998b400b1f1a99d6481f95632e9f.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0040_jpg.rf.a411a18e3f97c3555a50027dec4f7b03.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0056_jpg.rf.47cba1a0215196c2543651c6a14750fd.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0062_jpg.rf.3705b57de963fa19f295f744db333b9a.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0063_jpg.rf.8b6239c0a77d85c40bd2bb0af5cea83e.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0065_jpg.rf.49ae0635efa347a34812ce666990c743.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0067_jpg.rf.d66ac5ab2c1d791caf98bbe2a7a0819c.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0068_jpg.rf.7409ea668469938933b41dc34e4cc664.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0074_jpg.rf.dd49f41b4da346c9d0ef2d304b7a4fcd.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0084_jpg.rf.04f7ccc5d334894500b1ef1111384c2c.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0085_jpg.rf.0cfd93af151f2dced4c1a2e8449a64b9.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0087_jpg.rf.6bf379e48d36c065c185b16367bae362.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0091_jpg.rf.e3f3b65ae1fc93970995126a8213d38a.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0094_jpg.rf.488b9e80438fc5acd1bd5c9b14c14400.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0095_jpg.rf.9090039b8ed6a92ef64f7f6914a2784f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0099_jpg.rf.286076748df948aeea2b3edf4ae1cbc6.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0105_jpg.rf.2bb04abec60641f1f8d566fcecc0865c.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0108_jpg.rf.ac74492852630fba44eabee587b48b77.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0110_jpg.rf.ec22c626306ec85c43e6bde1e7ac18df.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0112_jpg.rf.5d410a9e2d72f7ed1a7f6002b49d6bc4.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0113_jpg.rf.f27c2a77c4a891fb66539710a64566d6.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0116_jpg.rf.2d64bdc6e2c02df96b3ddb75bbc7d605.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0120_jpg.rf.c2fe37231858ab9b780336456941d356.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0129_jpg.rf.66efe0e3e29107a67dc3ab1327057ef3.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0136_jpg.rf.121586a211924e810678d66b4c21ecd4.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0138_jpg.rf.b1f16fba957ea46aaafc4177f9a58ac1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0143_jpg.rf.cb89aa932479d8e438cf723caad59a66.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0151_jpg.rf.9d29f2d3ac98eec4bc4cf0da97ce0326.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0152_jpg.rf.1efc1c8a6605b59c160ba4ddaa0c4bdc.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0156_jpg.rf.8f4126143f82f2758dbc217a30570f7d.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0166_jpg.rf.2785b104a8bad68fa3f287df7279f0c3.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0167_jpg.rf.75f4fccaf14582f7ff545f60903119f0.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0169_jpg.rf.f3be055347b1fb6f8d563e85446628f8.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0170_jpg.rf.baf5f200d8b83cb26312dd7796296411.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0171_jpg.rf.554ef8f1820154bf40146a3118c7f8d8.jpg: 5 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0172_jpg.rf.389440399347d023def3a0815f6c5eae.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0174_jpg.rf.753f18232b255c08352eaef182c664c2.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0175_jpg.rf.5a5be5d63c97774037a3aa3df320b47a.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0185_jpg.rf.8be62fcd0cb7cb55d82106707f6b8758.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0188_jpg.rf.af7ed949fbfd1b5ef894bfb969321bb9.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0189_jpg.rf.71f83f51d70556e52cc4fcfa4c2c6cd2.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0192_jpg.rf.815c81cf98f2b4eaad469287553f0438.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0200_jpg.rf.8c746b2c41938d999729fea345722bae.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0202_jpg.rf.725691916263570c87cac5086af10544.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0214_jpg.rf.3b2d60b220572406e6e8811ddc2cd19c.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0215_jpg.rf.ef412c96f59846ef7377fc57301a2e74.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0216_jpg.rf.6dde9759d08bf5c3face8a1edbd7867f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0276_jpg.rf.7dede9bece0301c1affabdfe03c3b466.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0277_jpg.rf.1c8f121b7e595412dbf3bb8c5509c200.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0279_jpg.rf.a536ecb7e66204a1870a207abcc85367.jpg: 4 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0281_jpg.rf.6e3c08a45f1fb9cf394ca37e72c80dd7.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0282_jpg.rf.549ca30c949159e78e70119879010fc6.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0283_jpg.rf.390f3ae538527a6b43bd9984dda76278.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0285_jpg.rf.d03a18337a7d0706f21b0a972f16200e.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0286_jpg.rf.ff32e2fec166033228c280fde7377ebb.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0288_jpg.rf.0b38292ea285bebb17b1b2ed8dd1bd5b.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0289_jpg.rf.15536f5673bbb56be2a0159d644835b3.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0290_jpg.rf.7b18b4539fbd569e844a2b0b4fb7cf1f.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0293_jpg.rf.db3d50c84393320399f91a692f2dbb47.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0297_jpg.rf.1bcccf6e6eef9492d9788d8bf0d6047d.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0298_jpg.rf.e17f6ca873b22e123694d903832467ce.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0300_jpg.rf.1e6370840dcf5122cc5484a2eb0b0cb4.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0304_jpg.rf.c3356fb7366d0625d76999ced2ca4750.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0312_jpg.rf.59763b98f2b8f61cf80e33c66c10304f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0314_jpg.rf.ca924de884894c38982a3d088dcb829e.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0317_jpg.rf.f742d74f226bb44ef37a22692bf7f67e.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0319_jpg.rf.fe470dc1fa6177fae269c36cc3682e07.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0320_jpg.rf.e8e176d1c83890319196ceee0e66883a.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0323_jpg.rf.5843b55d07491cfdedc3f1ac92b7752f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0324_jpg.rf.ac056a03a97b6bc599026ebbe5e3028f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0326_jpg.rf.08d6e3ed3a0321ad95f219746c3c3cf1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0327_jpg.rf.294ff05435ad759a6b345929b6f9fabd.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0343_jpg.rf.0873b94f0a5efc06e881d2c2b9377be2.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0348_jpg.rf.d769cb154572b4af1ec85ff97392a603.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0351_jpg.rf.406ce8210a17062af78a83e78af9d499.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0352_jpg.rf.5002581ee2b942533ac9dc60b8cf08a4.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0354_jpg.rf.2d5a7fdd59ea053510b89bb9409d7562.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0357_jpg.rf.e57f84fcba222f6d5f00aa3cf5d7dfe7.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0361_jpg.rf.f76c37fb2f3839504b791a335112182b.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0364_jpg.rf.5ebb3cc98cef59adbced6cc98093939b.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0366_jpg.rf.3b3a17be60e56b47a89c416de988a54f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0367_jpg.rf.305ddbc9683d1e1bee15ccfda849f9e1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0368_jpg.rf.dab7d40a61897340ceb6f157c7957eae.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0369_jpg.rf.aad5c77e7a4f0614ed234e95d3877b5e.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0370_jpg.rf.a7dff6fac308c57d351a727b5b123117.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0372_jpg.rf.64e51fa1a1845d368224982ea2011591.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0374_jpg.rf.7ed42ec5aa35c34ed6c342e7ec759268.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0375_jpg.rf.a3cc15eb2aa454c9a49dcfde22cdc835.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0378_jpg.rf.174670c4d1b125cc699a5afb341df356.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0379_jpg.rf.8fbcd7b6bee625552de2b91edff8a26f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0380_jpg.rf.5c1d934ccf0d9b691d556b4ca268d8a1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0381_jpg.rf.567d4ae1e64dc9cfbb4fffad2795168a.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0386_jpg.rf.4621221a4ef1458b8339a7d7bceaadc9.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0392_jpg.rf.9a7c93bba3bf895caae01e6cb7154e42.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0395_jpg.rf.0d3de400feda7ef5b4c1482fa224046d.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0397_jpg.rf.d30ca443f1c13123927f6eddb7af9c7c.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0400_jpg.rf.fc6a4ee85573cd4918776bc3d390bc6f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0401_jpg.rf.3f471c6657fa4dc66766788137438a9a.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0402_jpg.rf.18b367be022b2b7f74c503eb240b375b.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0405_jpg.rf.30b2a402abd5c94c409f4bf778e306ae.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0413_jpg.rf.8024194e60b975fa32056f28ee8d88ff.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0415_jpg.rf.1a03a898927fd4cfcb5a15d702f90d16.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0416_jpg.rf.5eb0f934e76e5eacb0fe83edd02dd644.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0419_jpg.rf.d764e190394765cc79c736b6f23ab834.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0424_jpg.rf.089bc850ce541cbb4ddb1caeffa37f52.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0425_jpg.rf.98fc2501309b49a9bcefd12b65d40016.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0436_jpg.rf.1d3cad9e766215c43e8b5994bc2a09b8.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0443_jpg.rf.c7bffa94ec9585a66bad5bb4de4b1b95.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0451_jpg.rf.29f0ae90185a692d34ac91ae52ea127b.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0478_jpg.rf.b539ec818a043b287296a9f27e0d9718.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0479_jpg.rf.b5924a60543b7ac524a76b772e0d24d1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0482_jpg.rf.50420619a61dc38c9b8f0a63bdec812e.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0491_jpg.rf.59432fb3117461f07bd486be0bc4225a.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0506_jpg.rf.3485cc176d2c6309db22eaaa7b7d3e7d.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0513_jpg.rf.3731c1c07e25a345de8db0e65d8c950a.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0515_jpg.rf.3baa714e1acf5faabb2a6caeb3c499b6.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0522_jpg.rf.f5e5b91e12a30e87f0ac9d119c0a73ca.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0525_jpg.rf.677d6ff698173018873e3a991df3db3d.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0526_jpg.rf.a33493b04dbc7403f0252ec1d7cb5640.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0529_jpg.rf.1896b253d059bacc85e9108c20598aea.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0537_jpg.rf.8948bb828f7865070ca5344c8d6ece35.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0541_jpg.rf.ee479f2c006f242aee3e2cd444c48eb0.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0544_jpg.rf.4e54ec0c3ed5912b978e47b61bd0c5cd.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0550_jpg.rf.4a47cb0dd0735a35abe19d399255ae0b.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0552_jpg.rf.e7bc4f75de49d4220998f8a632ee381c.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0554_jpg.rf.42fd7aca3495ee95bdcf2325ce5f9718.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0571_jpg.rf.0dfe0f9e0983405c1d229eb6fca8adaa.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0572_jpg.rf.e7209ef578d9274433cf36e87ab9eb55.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0576_jpg.rf.233a602d87d2ac0234754cc12ef97255.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0581_jpg.rf.743991d9ee331ee6e57e6f8685b755c0.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0584_jpg.rf.242a020029a8b51d400ee79a104e5079.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0587_jpg.rf.7af1714a15f098af6688e96411790f2f.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0594_jpg.rf.79616bde85e080a2a9a128f04ab16cb2.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0608_jpg.rf.e95df4da687aaaf17ffd0267737db924.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0614_jpg.rf.ae6c25a162b55c2d1d872a5f508147f5.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0616_jpg.rf.62722135c2071b3703858fffff37cf41.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0621_jpg.rf.448e59d2613a26b8e6218dac2bcf6e5a.jpg: 1 duplicate labels removed
+train: New cache created: /home/aniket/RashBot/Rash-Bot-1/train/labels.cache
+val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 1101.7±543.6 MB/s, size: 70.9 KB)
+val: Scanning /home/aniket/RashBot/Rash-Bot-1/train/labels.cache... 605 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 605/605 21.1Mit/s 0.0s
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0018_jpg.rf.c6f3fc61b3b18122e550ca17ce0b55a4.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0019_jpg.rf.a116debe2d644bffc4412bd99b979f23.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0021_jpg.rf.8621770e74916bfee5a4bb94fd2d2885.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0023_jpg.rf.b0a3aec46ac83791f46796585d3de22c.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0026_jpg.rf.312c84e317629a25f0f787117e39eead.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0029_jpg.rf.61d9a2f05e133f1edfe0092d036227eb.jpg: 4 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0030_jpg.rf.bdaa08cbf5e27354dc6f3372a63db65f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0035_jpg.rf.7355acd350ab2a2304e12ba5041a7bae.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0036_jpg.rf.5ecc998b400b1f1a99d6481f95632e9f.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0040_jpg.rf.a411a18e3f97c3555a50027dec4f7b03.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0056_jpg.rf.47cba1a0215196c2543651c6a14750fd.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0062_jpg.rf.3705b57de963fa19f295f744db333b9a.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0063_jpg.rf.8b6239c0a77d85c40bd2bb0af5cea83e.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0065_jpg.rf.49ae0635efa347a34812ce666990c743.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0067_jpg.rf.d66ac5ab2c1d791caf98bbe2a7a0819c.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0068_jpg.rf.7409ea668469938933b41dc34e4cc664.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0074_jpg.rf.dd49f41b4da346c9d0ef2d304b7a4fcd.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0084_jpg.rf.04f7ccc5d334894500b1ef1111384c2c.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0085_jpg.rf.0cfd93af151f2dced4c1a2e8449a64b9.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0087_jpg.rf.6bf379e48d36c065c185b16367bae362.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0091_jpg.rf.e3f3b65ae1fc93970995126a8213d38a.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0094_jpg.rf.488b9e80438fc5acd1bd5c9b14c14400.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0095_jpg.rf.9090039b8ed6a92ef64f7f6914a2784f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0099_jpg.rf.286076748df948aeea2b3edf4ae1cbc6.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0105_jpg.rf.2bb04abec60641f1f8d566fcecc0865c.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0108_jpg.rf.ac74492852630fba44eabee587b48b77.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0110_jpg.rf.ec22c626306ec85c43e6bde1e7ac18df.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0112_jpg.rf.5d410a9e2d72f7ed1a7f6002b49d6bc4.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0113_jpg.rf.f27c2a77c4a891fb66539710a64566d6.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0116_jpg.rf.2d64bdc6e2c02df96b3ddb75bbc7d605.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0120_jpg.rf.c2fe37231858ab9b780336456941d356.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0129_jpg.rf.66efe0e3e29107a67dc3ab1327057ef3.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0136_jpg.rf.121586a211924e810678d66b4c21ecd4.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0138_jpg.rf.b1f16fba957ea46aaafc4177f9a58ac1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0143_jpg.rf.cb89aa932479d8e438cf723caad59a66.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0151_jpg.rf.9d29f2d3ac98eec4bc4cf0da97ce0326.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0152_jpg.rf.1efc1c8a6605b59c160ba4ddaa0c4bdc.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0156_jpg.rf.8f4126143f82f2758dbc217a30570f7d.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0166_jpg.rf.2785b104a8bad68fa3f287df7279f0c3.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0167_jpg.rf.75f4fccaf14582f7ff545f60903119f0.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0169_jpg.rf.f3be055347b1fb6f8d563e85446628f8.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0170_jpg.rf.baf5f200d8b83cb26312dd7796296411.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0171_jpg.rf.554ef8f1820154bf40146a3118c7f8d8.jpg: 5 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0172_jpg.rf.389440399347d023def3a0815f6c5eae.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0174_jpg.rf.753f18232b255c08352eaef182c664c2.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0175_jpg.rf.5a5be5d63c97774037a3aa3df320b47a.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0185_jpg.rf.8be62fcd0cb7cb55d82106707f6b8758.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0188_jpg.rf.af7ed949fbfd1b5ef894bfb969321bb9.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0189_jpg.rf.71f83f51d70556e52cc4fcfa4c2c6cd2.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0192_jpg.rf.815c81cf98f2b4eaad469287553f0438.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0200_jpg.rf.8c746b2c41938d999729fea345722bae.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0202_jpg.rf.725691916263570c87cac5086af10544.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0214_jpg.rf.3b2d60b220572406e6e8811ddc2cd19c.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0215_jpg.rf.ef412c96f59846ef7377fc57301a2e74.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0216_jpg.rf.6dde9759d08bf5c3face8a1edbd7867f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0276_jpg.rf.7dede9bece0301c1affabdfe03c3b466.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0277_jpg.rf.1c8f121b7e595412dbf3bb8c5509c200.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0279_jpg.rf.a536ecb7e66204a1870a207abcc85367.jpg: 4 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0281_jpg.rf.6e3c08a45f1fb9cf394ca37e72c80dd7.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0282_jpg.rf.549ca30c949159e78e70119879010fc6.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0283_jpg.rf.390f3ae538527a6b43bd9984dda76278.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0285_jpg.rf.d03a18337a7d0706f21b0a972f16200e.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0286_jpg.rf.ff32e2fec166033228c280fde7377ebb.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0288_jpg.rf.0b38292ea285bebb17b1b2ed8dd1bd5b.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0289_jpg.rf.15536f5673bbb56be2a0159d644835b3.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0290_jpg.rf.7b18b4539fbd569e844a2b0b4fb7cf1f.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0293_jpg.rf.db3d50c84393320399f91a692f2dbb47.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0297_jpg.rf.1bcccf6e6eef9492d9788d8bf0d6047d.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0298_jpg.rf.e17f6ca873b22e123694d903832467ce.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0300_jpg.rf.1e6370840dcf5122cc5484a2eb0b0cb4.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0304_jpg.rf.c3356fb7366d0625d76999ced2ca4750.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0312_jpg.rf.59763b98f2b8f61cf80e33c66c10304f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0314_jpg.rf.ca924de884894c38982a3d088dcb829e.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0317_jpg.rf.f742d74f226bb44ef37a22692bf7f67e.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0319_jpg.rf.fe470dc1fa6177fae269c36cc3682e07.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0320_jpg.rf.e8e176d1c83890319196ceee0e66883a.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0323_jpg.rf.5843b55d07491cfdedc3f1ac92b7752f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0324_jpg.rf.ac056a03a97b6bc599026ebbe5e3028f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0326_jpg.rf.08d6e3ed3a0321ad95f219746c3c3cf1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0327_jpg.rf.294ff05435ad759a6b345929b6f9fabd.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0343_jpg.rf.0873b94f0a5efc06e881d2c2b9377be2.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0348_jpg.rf.d769cb154572b4af1ec85ff97392a603.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0351_jpg.rf.406ce8210a17062af78a83e78af9d499.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0352_jpg.rf.5002581ee2b942533ac9dc60b8cf08a4.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0354_jpg.rf.2d5a7fdd59ea053510b89bb9409d7562.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0357_jpg.rf.e57f84fcba222f6d5f00aa3cf5d7dfe7.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0361_jpg.rf.f76c37fb2f3839504b791a335112182b.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0364_jpg.rf.5ebb3cc98cef59adbced6cc98093939b.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0366_jpg.rf.3b3a17be60e56b47a89c416de988a54f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0367_jpg.rf.305ddbc9683d1e1bee15ccfda849f9e1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0368_jpg.rf.dab7d40a61897340ceb6f157c7957eae.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0369_jpg.rf.aad5c77e7a4f0614ed234e95d3877b5e.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0370_jpg.rf.a7dff6fac308c57d351a727b5b123117.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0372_jpg.rf.64e51fa1a1845d368224982ea2011591.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0374_jpg.rf.7ed42ec5aa35c34ed6c342e7ec759268.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0375_jpg.rf.a3cc15eb2aa454c9a49dcfde22cdc835.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0378_jpg.rf.174670c4d1b125cc699a5afb341df356.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0379_jpg.rf.8fbcd7b6bee625552de2b91edff8a26f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0380_jpg.rf.5c1d934ccf0d9b691d556b4ca268d8a1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0381_jpg.rf.567d4ae1e64dc9cfbb4fffad2795168a.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0386_jpg.rf.4621221a4ef1458b8339a7d7bceaadc9.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0392_jpg.rf.9a7c93bba3bf895caae01e6cb7154e42.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0395_jpg.rf.0d3de400feda7ef5b4c1482fa224046d.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0397_jpg.rf.d30ca443f1c13123927f6eddb7af9c7c.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0400_jpg.rf.fc6a4ee85573cd4918776bc3d390bc6f.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0401_jpg.rf.3f471c6657fa4dc66766788137438a9a.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0402_jpg.rf.18b367be022b2b7f74c503eb240b375b.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0405_jpg.rf.30b2a402abd5c94c409f4bf778e306ae.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0413_jpg.rf.8024194e60b975fa32056f28ee8d88ff.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0415_jpg.rf.1a03a898927fd4cfcb5a15d702f90d16.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0416_jpg.rf.5eb0f934e76e5eacb0fe83edd02dd644.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0419_jpg.rf.d764e190394765cc79c736b6f23ab834.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0424_jpg.rf.089bc850ce541cbb4ddb1caeffa37f52.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0425_jpg.rf.98fc2501309b49a9bcefd12b65d40016.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0436_jpg.rf.1d3cad9e766215c43e8b5994bc2a09b8.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0443_jpg.rf.c7bffa94ec9585a66bad5bb4de4b1b95.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0451_jpg.rf.29f0ae90185a692d34ac91ae52ea127b.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0478_jpg.rf.b539ec818a043b287296a9f27e0d9718.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0479_jpg.rf.b5924a60543b7ac524a76b772e0d24d1.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0482_jpg.rf.50420619a61dc38c9b8f0a63bdec812e.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0491_jpg.rf.59432fb3117461f07bd486be0bc4225a.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0506_jpg.rf.3485cc176d2c6309db22eaaa7b7d3e7d.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0513_jpg.rf.3731c1c07e25a345de8db0e65d8c950a.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0515_jpg.rf.3baa714e1acf5faabb2a6caeb3c499b6.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0522_jpg.rf.f5e5b91e12a30e87f0ac9d119c0a73ca.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0525_jpg.rf.677d6ff698173018873e3a991df3db3d.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0526_jpg.rf.a33493b04dbc7403f0252ec1d7cb5640.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0529_jpg.rf.1896b253d059bacc85e9108c20598aea.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0537_jpg.rf.8948bb828f7865070ca5344c8d6ece35.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0541_jpg.rf.ee479f2c006f242aee3e2cd444c48eb0.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0544_jpg.rf.4e54ec0c3ed5912b978e47b61bd0c5cd.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0550_jpg.rf.4a47cb0dd0735a35abe19d399255ae0b.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0552_jpg.rf.e7bc4f75de49d4220998f8a632ee381c.jpg: 3 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0554_jpg.rf.42fd7aca3495ee95bdcf2325ce5f9718.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0571_jpg.rf.0dfe0f9e0983405c1d229eb6fca8adaa.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0572_jpg.rf.e7209ef578d9274433cf36e87ab9eb55.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0576_jpg.rf.233a602d87d2ac0234754cc12ef97255.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0581_jpg.rf.743991d9ee331ee6e57e6f8685b755c0.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0584_jpg.rf.242a020029a8b51d400ee79a104e5079.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0587_jpg.rf.7af1714a15f098af6688e96411790f2f.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0594_jpg.rf.79616bde85e080a2a9a128f04ab16cb2.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0608_jpg.rf.e95df4da687aaaf17ffd0267737db924.jpg: 2 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0614_jpg.rf.ae6c25a162b55c2d1d872a5f508147f5.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0616_jpg.rf.62722135c2071b3703858fffff37cf41.jpg: 1 duplicate labels removed
+train: /home/aniket/RashBot/Rash-Bot-1/train/images/frame_0621_jpg.rf.448e59d2613a26b8e6218dac2bcf6e5a.jpg: 1 duplicate labels removed
+optimizer: 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically... 
+optimizer: AdamW(lr=0.00125, momentum=0.9) with parameter groups 57 weight(decay=0.0), 64 weight(decay=0.0005), 63 bias(decay=0.0)
+Plotting labels to /home/aniket/RashBot/runs/detect/train/labels.jpg... 
+Image sizes 640 train, 640 val
+Using 8 dataloader workers
+Logging results to /home/aniket/RashBot/runs/detect/train
+Starting training for 50 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       1/50      1.13G      1.533       3.57      1.367        229        640: 0       1/50      1.13G      1.531      3.566      1.461        104        640: 1       1/50      1.13G      1.517      3.567       1.47        116        640: 3       1/50      1.13G      1.504      3.558      1.468        176        640: 4       1/50      1.14G      1.522      3.547      1.499        116        640: 5       1/50      1.15G      1.521      3.549      1.506        104        640: 7       1/50      1.15G      1.533      3.539      1.525        104        640: 8       1/50      1.15G       1.53      3.522      1.539         98        640: 9       1/50      1.15G      1.528      3.515      1.532        194        640: 1       1/50      1.15G      1.529      3.511      1.529        137        640: 1       1/50            1/50      1.38G      1.221      2.412      1.297         85        640: 100% ━━━━━━━━━━━━ 76/76 2.9it/s 26.0s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.6s
+                   all        605       7680      0.668      0.256      0.395      0.259
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       2/50      1.52G      1.081      1.494      1.202         79        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.4it/s 11.2s
+                   all        605       7680      0.646      0.429      0.473      0.327
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       3/50      1.54G       1.07      1.366      1.175         90        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.5it/s 10.8s
+                   all        605       7680      0.667      0.464      0.497      0.331
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       4/50      1.55G      1.019      1.272      1.159        121        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.4it/s 11.3s
+                   all        605       7680      0.679      0.462      0.497      0.339
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       5/50      1.57G      1.016      1.232      1.147        139        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.5it/s 10.8s
+                   all        605       7680      0.721      0.453      0.501      0.339
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       6/50      1.59G     0.9848      1.204      1.136        130        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.7s
+                   all        605       7680      0.748      0.475      0.525      0.364
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       7/50       1.6G      0.958      1.173      1.132         98        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.5it/s 10.8s
+                   all        605       7680      0.718      0.478      0.526      0.348
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       8/50       1.6G     0.9345      1.127      1.108         71        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.5it/s 10.7s
+                   all        605       7680      0.731      0.497      0.537      0.374
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+       9/50       1.6G     0.9211      1.109      1.104         95        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.6s
+                   all        605       7680      0.704      0.502      0.542       0.38
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      10/50       1.6G     0.9293       1.09      1.107         97        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.5it/s 10.8s
+                   all        605       7680      0.733      0.492      0.536      0.365
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      11/50       1.6G     0.9312      1.083      1.103        132        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.7s
+                   all        605       7680      0.696      0.522      0.539      0.374
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      12/50       1.6G     0.8817      1.034      1.086        119        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.755      0.502      0.556       0.39
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      13/50       1.6G     0.8751      1.032       1.07        105        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.4s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.707      0.522      0.558      0.393
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      14/50       1.6G     0.8848      1.014      1.076        102        640: 100% ━━━━━━━━━━━━ 76/76 2.8it/s 26.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.6s
+                   all        605       7680      0.734      0.506      0.553       0.39
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      15/50       1.6G     0.8704     0.9917      1.067         77        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.4s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.701        0.5      0.552      0.398
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      16/50       1.6G     0.8649     0.9902      1.064        204        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.769      0.508       0.56      0.404
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      17/50       1.6G     0.8529     0.9832      1.058        100        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.2it/s 11.9s
+                   all        605       7680       0.76      0.515      0.569      0.405
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      18/50       1.6G     0.8354     0.9559      1.055         53        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.713      0.515      0.566      0.409
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      19/50       1.6G     0.8556     0.9728      1.062         99        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.749      0.533      0.582      0.415
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      20/50      1.62G     0.8443     0.9486      1.056         82        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680       0.77      0.515      0.571      0.408
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      21/50      1.62G     0.8273     0.9407      1.049        109        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.732      0.538      0.577      0.413
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      22/50      1.62G     0.8388     0.9334       1.05         54        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.6s
+                   all        605       7680      0.774      0.529      0.578       0.42
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      23/50      1.62G     0.8224      0.922      1.037        109        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.9s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680       0.74      0.544      0.588      0.429
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      24/50      1.62G     0.8065      0.924      1.035        106        640: 100% ━━━━━━━━━━━━ 76/76 3.0it/s 25.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.7s
+                   all        605       7680      0.732      0.534       0.58      0.422
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      25/50      1.62G     0.8232     0.9318      1.037        109        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.8s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.755      0.538      0.588      0.427
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      26/50      1.62G     0.8084     0.9118      1.031         79        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.8s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.746      0.551      0.591      0.429
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      27/50      1.62G     0.7974      0.892      1.033         80        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.8s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.4s
+                   all        605       7680      0.735      0.546      0.597      0.434
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      28/50      1.62G     0.7903     0.8764       1.02         51        640: 100% ━━━━━━━━━━━━ 76/76 2.7it/s 28.0s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.4s
+                   all        605       7680      0.792      0.526      0.587       0.43
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      29/50      1.62G     0.7802     0.8833      1.017         56        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.753      0.547      0.592      0.433
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      30/50      1.62G     0.7589      0.863      1.016         47        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.763      0.551      0.606      0.443
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      31/50      1.62G     0.7847     0.8777      1.017        108        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.743      0.545      0.608      0.448
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      32/50      1.62G     0.7807     0.8603      1.016         74        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.4s
+                   all        605       7680      0.739      0.547      0.601      0.445
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      33/50      1.62G     0.7896     0.8641      1.024        116        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.768      0.544      0.601      0.438
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      34/50      1.62G     0.7548     0.8441      1.004         79        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.7it/s 10.4s
+                   all        605       7680      0.767      0.549      0.607      0.444
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      35/50      1.75G     0.7662     0.8428       1.01         96        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.6s
+                   all        605       7680      0.745      0.553       0.61      0.451
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      36/50      1.75G      0.757     0.8337      1.016        120        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.7it/s 10.4s
+                   all        605       7680      0.762      0.559      0.617      0.454
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      37/50      1.75G     0.7467     0.8342     0.9994        104        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.4s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.7it/s 10.4s
+                   all        605       7680      0.745      0.554      0.609      0.451
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      38/50      1.75G     0.7425     0.8366      1.006        122        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.769      0.567      0.624      0.466
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      39/50      1.75G     0.7437     0.8183      1.005         83        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.6s
+                   all        605       7680      0.769      0.565      0.627      0.466
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      40/50      1.75G      0.738     0.8128     0.9946         40        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.6s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.773      0.566      0.626      0.469
+Closing dataloader mosaic
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      41/50      1.75G      0.819     0.8976      1.026         89        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.7s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.762      0.561      0.618      0.462
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      42/50      1.75G     0.7878      0.847      1.009         35        640: 100% ━━━━━━━━━━━━ 76/76 3.2it/s 24.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.4s
+                   all        605       7680      0.749      0.575      0.628      0.469
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      43/50      1.75G     0.7846     0.8223       1.01         73        640: 100% ━━━━━━━━━━━━ 76/76 3.2it/s 24.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.766       0.57      0.626      0.468
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      44/50      1.75G     0.7767     0.8204      1.004         59        640: 100% ━━━━━━━━━━━━ 76/76 3.2it/s 24.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.787      0.564       0.63       0.47
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      45/50      1.75G      0.759     0.7971     0.9969         38        640: 100% ━━━━━━━━━━━━ 76/76 3.2it/s 24.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.4s
+                   all        605       7680      0.775      0.579      0.638      0.477
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      46/50      1.75G      0.757     0.7958     0.9871         38        640: 100% ━━━━━━━━━━━━ 76/76 3.0it/s 25.0s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.7it/s 10.4s
+                   all        605       7680       0.78      0.571      0.637      0.475
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      47/50      1.75G     0.7603     0.7869     0.9896         46        640: 100% ━━━━━━━━━━━━ 76/76 3.2it/s 24.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.5s
+                   all        605       7680      0.785      0.574      0.643      0.482
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      48/50      1.75G      0.746      0.779      0.986         61        640: 100% ━━━━━━━━━━━━ 76/76 3.2it/s 24.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.7it/s 10.4s
+                   all        605       7680      0.786      0.576      0.642      0.481
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      49/50      1.75G     0.7389     0.7669     0.9834         88        640: 100% ━━━━━━━━━━━━ 76/76 3.2it/s 24.1s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.6it/s 10.4s
+                   all        605       7680      0.788      0.575      0.643      0.483
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+      50/50      1.75G     0.7434     0.7682     0.9884         40        640: 100% ━━━━━━━━━━━━ 76/76 3.1it/s 24.5s
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.7it/s 10.4s
+                   all        605       7680      0.794       0.58      0.646      0.489
+
+50 epochs completed in 0.498 hours.
+Optimizer stripped from /home/aniket/RashBot/runs/detect/train/weights/last.pt, 6.3MB
+Optimizer stripped from /home/aniket/RashBot/runs/detect/train/weights/best.pt, 6.3MB
+
+Validating /home/aniket/RashBot/runs/detect/train/weights/best.pt...
+Ultralytics 8.4.33 🚀 Python-3.10.12 torch-2.7.1+cu118 CUDA:0 (NVIDIA GeForce GTX 1050 Ti, 4032MiB)
+Model summary (fused): 73 layers, 3,006,428 parameters, 0 gradients, 8.1 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 38/38 3.0it/s 12.5s
+                   all        605       7680      0.796       0.58      0.647      0.489
+                 Bikes        555       1400      0.822      0.734      0.777      0.609
+                  Cars        394        761      0.928      0.715       0.79      0.541
+              Footpath        331       3269       0.69      0.405      0.476      0.336
+                  Road        604       2250      0.743      0.466      0.543       0.47
+Speed: 0.4ms preprocess, 11.8ms inference, 0.0ms loss, 4.8ms postprocess per image
+Results saved to /home/aniket/RashBot/runs/detect/train
+💡 Learn more at https://docs.ultralytics.com/modes/train
+(rash_env) aniket@aniket:~/RashBot$ 
+
+
